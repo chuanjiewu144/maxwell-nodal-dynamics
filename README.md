@@ -120,34 +120,41 @@ The 3D visualization uses mixed toroidal and poloidal cylindrical basis function
 
 ## Videos
 
-### Linear nodal-set experiment
+## Linear cylindrical nodal-set experiment
 
-**Current interior nodal set**
+### Current interior nodal set
 
-[▶ Watch video](media/figure1_current_nodal_set.mp4)
+The animation below follows the nodal set as the eigenpair index increases.
 
-**Cumulative nodal density in the cylinder**
+[![Current nodal set](media/figure1_current_nodal_set.gif)](media/figure1_current_nodal_set.mp4)
 
-[▶ Watch video](media/figure2_cumulative_nodal_density_3d.mp4)
+*Click the animation for the full MP4.*
 
-**Cross-sectional cumulative nodal density**
+### Cumulative 3D nodal density
 
-[▶ Watch video](media/figure3_cross_section_nodal_density.mp4)
+[![Cumulative 3D nodal density](media/figure2_cumulative_nodal_density_3d.gif)](media/figure2_cumulative_nodal_density_3d.mp4)
 
-### Nonlinear Maxwell experiment
+*Click the animation for the full MP4.*
 
-**Instantaneous frozen spectrum**
+### Cross-sectional nodal density
 
-[▶ Watch video](media/nonlinear_spectrum.mp4)
+[![Cross-sectional nodal density](media/figure3_cross_section_nodal_density.gif)](media/figure3_cross_section_nodal_density.mp4)
 
-**Three-dimensional instantaneous eigenmode**
+*Click the animation for the full MP4.*
 
-[▶ Watch video](media/nonlinear_3d_eigenmode.mp4)
+## Nonlinear Maxwell dynamics
 
-**Cross-sectional instantaneous eigenmode**
+### Instantaneous frozen spectrum
 
-[▶ Watch video](media/nonlinear_cross_section.mp4)
+[![Frozen spectrum](media/nonlinear_spectrum.gif)](media/nonlinear_spectrum.mp4)
 
+### Three-dimensional instantaneous eigenmode
+
+[![3D nonlinear Maxwell eigenmode](media/nonlinear_3d_eigenmode.gif)](media/nonlinear_3d_eigenmode.mp4)
+
+### Cross-sectional instantaneous eigenmode
+
+[![Cross-sectional nonlinear Maxwell mode](media/nonlinear_cross_section.gif)](media/nonlinear_cross_section.mp4)
 
 ## 4. Run in Google Colab
 
