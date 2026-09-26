@@ -146,15 +146,15 @@ The animation below follows the nodal set as the eigenpair index increases.
 
 ### Instantaneous frozen spectrum
 
-[![Frozen spectrum](media/nonlinear_spectrum.gif)](media/nonlinear_spectrum.mp4)
+[![Frozen spectrum](media/figure1_spectrum_balanced.gif)](media/figure1_spectrum_balanced.mp4)
 
 ### Three-dimensional instantaneous eigenmode
 
-[![3D nonlinear Maxwell eigenmode](media/nonlinear_3d_eigenmode.gif)](media/nonlinear_3d_eigenmode.mp4)
+[![3D nonlinear Maxwell eigenmode](media/figure2_3d_balanced.gif)](media/figure2_3d_balanced.mp4)
 
 ### Cross-sectional instantaneous eigenmode
 
-[![Cross-sectional nonlinear Maxwell mode](media/nonlinear_cross_section.gif)](media/nonlinear_cross_section.mp4)
+[![Cross-sectional nonlinear Maxwell mode](media/figure3_cross_section_balanced.gif)](media/figure3_cross_section_balanced.mp4)
 
 ## 4. Run in Google Colab
 
