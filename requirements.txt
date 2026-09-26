@@ -1,0 +1,10 @@
+numpy
+scipy
+matplotlib
+imageio
+imageio-ffmpeg
+# Nonlinear 3D visualization (Colab-tested pinned pair)
+pyvista==0.46.4
+vtk==9.5.2
+scooby
+pooch

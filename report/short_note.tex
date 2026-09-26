@@ -1,0 +1,151 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=0.72in]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlist{nosep,leftmargin=*}
+\title{\vspace{-1.2cm}\textbf{Maxwell Modes, Nodal Density, and Nonlinear Frozen Spectra}\\\large A short numerical experiment in a cylindrical cavity}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.0cm}
+
+\begin{abstract}
+This short project connects two numerical visualisations of cavity modes.  The first is a linear, time-harmonic experiment: cylindrical scalar eigenfunctions are ordered by increasing eigenvalue, their nodal sets are detected numerically, and a cumulative nodal-density proxy is formed.  The second is a reduced nonlinear Maxwell-type evolution.  A time-dependent Galerkin background is computed and, at each physical time, the linearisation about that background is diagonalised to obtain a frozen spectrum and an instantaneous eigenfunction.  The experiments are intended as computational intuition rather than a full Maxwell discretisation.
+\end{abstract}
+
+\section{Time-harmonic Maxwell cavity modes}
+In a perfectly conducting cavity, a magnetic-field formulation of the linear Maxwell eigenproblem may be written schematically as
+\begin{equation}
+\nabla\times\nabla\times H=\lambda H,
+\qquad \nabla\cdot H=0 \quad\text{in }\Omega,
+\end{equation}
+with the PEC-compatible magnetic boundary conditions
+\begin{equation}
+n\cdot H=0,
+\qquad n\times(\nabla\times H)=0
+\quad\text{on }\partial\Omega.
+\end{equation}
+After nondimensionalisation, $\lambda=\omega^2$ is the squared oscillation frequency.  In product geometries, Maxwell modes can often be organised through scalar transverse eigenproblems and polarisation families; circular cylinders provide explicit examples of this separation structure \cite{costabeldauge,monk}.
+
+For the nodal experiment we deliberately use a simpler scalar model rather than claiming to compute the zero set of the full vector Maxwell field.  On the cylinder
+\[
+\Omega=\{(r,\theta,z):0\le r<R,\ 0\le \theta<2\pi,\ 0<z<H\},
+\]
+we consider
+\begin{equation}
+\phi_{m,\ell,p}(r,\theta,z)=
+J_m\!\left(\alpha_{m,\ell}\frac rR\right)
+\cos(m\theta)
+\sin\!\left(\frac{p\pi z}{H}\right),
+\end{equation}
+where $\alpha_{m,\ell}$ is the $\ell$th positive zero of $J_m$.  The associated scalar Dirichlet eigenvalue is
+\begin{equation}
+\lambda_{m,\ell,p}=
+\left(\frac{\alpha_{m,\ell}}{R}\right)^2+
+\left(\frac{p\pi}{H}\right)^2.
+\end{equation}
+These functions are useful visual surrogates for separated scalar factors appearing in TE/TM descriptions, while keeping the geometry of zeros transparent.
+
+\section{Nodal sets and cumulative nodal density}
+For a scalar eigenfunction the nodal set is
+\[
+\mathcal Z(\phi_j)=\{x\in\Omega:\phi_j(x)=0\}.
+\]
+On a grid, exact equality is not robust, so the code uses the relative criterion
+\begin{equation}
+|\phi_j(x)|\le \varepsilon\|\phi_j\|_{L^\infty(\Omega)},
+\qquad \varepsilon=0.035,
+\end{equation}
+and excludes the imposed Dirichlet boundary from the ``interior'' nodal set.  The first video displays this current set as the spectral index $j$ increases.
+
+To record where nodal surfaces repeatedly occur, the project forms
+\begin{equation}
+D_J(x)=\frac1J\sum_{j=1}^{J}
+\mathbf 1_{\{|\phi_j(x)|\le\varepsilon\|\phi_j\|_\infty\}}.
+\end{equation}
+The indicator average is Gaussian-smoothed and plotted through
+$\log(1+\alpha D_J)$, with $\alpha=80$, both in the whole cylinder and on a fixed transverse disk.  This is a visual occupancy statistic, not a probability density and not a geometric measure of the exact zero set.
+
+As $j$ grows, wavelengths generally become shorter and the observed patterns become finer and more spatially complicated.  There is, however, no rule that the number of nodal pieces must increase from every mode to the next.  For scalar self-adjoint problems, Courant's nodal-domain theorem gives an upper bound on the number of nodal domains of the $j$th eigenfunction; it does not assert monotone growth \cite{courant}.  For vector Maxwell eigenfields the zero set $\{x:|H(x)|=0\}$ is a different object, and the scalar Courant theorem does not directly transfer.  This is why the present nodal movie is best interpreted as a scalar cylindrical experiment motivated by Maxwell separation.
+
+\section{Nonlinear Maxwell-type dynamics}
+The second experiment introduces a cubic self-interaction and evolves
+\begin{equation}
+ u_{tt}+Au+\gamma P(|u|^2u)=0,
+ \qquad A=\nabla\times\nabla\times.
+\end{equation}
+Here $P$ denotes the reduced projection onto the chosen divergence-free Galerkin space and $\gamma$ controls the strength and sign of the nonlinearity.  A cubic term is a simple model of an amplitude-dependent electromagnetic response, analogous to Kerr-type constitutive behaviour in nonlinear optics.  The code is a reduced Maxwell-type demonstrator rather than a derivation of one specific material law.
+
+With an orthonormal reduced basis $\{\phi_j\}_{j=1}^M$,
+\[
+u(t,x)=\sum_{j=1}^M q_j(t)\phi_j(x),
+\]
+the PDE becomes a finite-dimensional nonlinear oscillator system
+\begin{equation}
+q''+\Lambda q+\gamma G(q)=0.
+\end{equation}
+The reduced lossless model has an energy of the form
+\begin{equation}
+E=\frac12|q'|^2+\frac12\sum_j\lambda_j q_j^2
++\frac{\gamma}{4}\,q\cdot G(q),
+\end{equation}
+which is monitored numerically.  In contrast, the amplitude norm $N(t)=|q(t)|^2$ need not remain constant, so the evolving background genuinely changes the nonlinear linearisation.
+
+At each physical time $t$, the program freezes $u(t)$ and forms
+\begin{equation}
+L(t)v=Av+\gamma P\left(|u(t)|^2v+2(u(t)\cdot v)u(t)\right).
+\end{equation}
+The instantaneous eigenpairs satisfy
+\begin{equation}
+L(t)\phi_j(t)=\lambda_j(t)\phi_j(t).
+\end{equation}
+Thus the plotted $\lambda_j(t)$ are not the spectrum of one fixed operator.  They are eigenvalues of a family of linearisations parameterised by the evolving nonlinear background.  When $\lambda_j(t)>0$, $\sqrt{\lambda_j(t)}$ can be read as an instantaneous small-perturbation frequency scale.  The corresponding eigenfunction can change direction and spatial structure as $u(t)$ moves through state space.
+
+The numerical basis mixes toroidal and poloidal cylindrical vector families.  The poloidal part provides a nonzero axial component, so the smallest-positive frozen eigenfunction can be visualised by genuinely three-dimensional field lines rather than horizontal planar curves.
+
+\section{Numerical experiment and interpretation}
+Table~\ref{tab:exp} summarises the two parts.  The linear experiment advances in \emph{spectral index}; the nonlinear experiment advances in \emph{physical time}.  Keeping this distinction is essential.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Experiment & Quantity varied & Main output \\
+\midrule
+Linear nodal density & eigenpair index $j$ & $\mathcal Z(\phi_j)$ and $D_J(x)$ \\
+Nonlinear evolution & physical time $t$ & $\lambda_j(t)$ and $\phi_j(t,x)$ \\
+\bottomrule
+\end{tabular}
+\caption{Two complementary numerical views of cavity modes.}
+\label{tab:exp}
+\end{table}
+
+The first set of videos asks how oscillatory geometry changes across different linear modes.  The second asks how a single nonlinear trajectory modifies the local spectral response of the system.  In the nonlinear case, an apparent crossing or near-collision of eigenvalue curves should be investigated through spectral gaps $g_j(t)=\lambda_{j+1}(t)-\lambda_j(t)$ and through the eigenvectors themselves; the plots alone do not prove a bifurcation or instability.
+
+The project therefore provides a compact bridge between classical cavity spectra and a dynamical, state-dependent spectral picture.  A natural next step would replace the scalar nodal surrogate by nodal/critical-set diagnostics for full Maxwell eigenfields, and would compare the reduced nonlinear model with a discretisation that enforces the exact cavity boundary conditions.
+
+\begin{thebibliography}{9}
+\small
+\bibitem{costabeldauge}
+M. Costabel and M. Dauge, ``Maxwell eigenmodes in product domains,'' in \emph{Maxwell's Equations: Analysis and Numerics}, De Gruyter, 2019, pp. 171--198.
+
+\bibitem{monk}
+P. Monk, \emph{Finite Element Methods for Maxwell's Equations}, Oxford University Press, 2003.
+
+\bibitem{mandel}
+R. Mandel, ``A simple variational approach to nonlinear Maxwell equations,'' 2021.
+
+\bibitem{courant}
+R. Courant and D. Hilbert, \emph{Methods of Mathematical Physics, Vol. I}, Wiley-Interscience.
+\end{thebibliography}
+
+\end{document}
